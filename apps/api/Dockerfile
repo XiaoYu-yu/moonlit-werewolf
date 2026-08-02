@@ -23,10 +23,10 @@ RUN pnpm --filter @werewolf/database db:generate \
  && pnpm --filter @werewolf/ai-gateway build \
  && pnpm --filter @werewolf/database build \
  && pnpm --filter @werewolf/api build \
- && pnpm --config.auto-install-peers=false --filter @werewolf/api --prod deploy --legacy /prod/api \
+ && CI=true pnpm --config.auto-install-peers=false --filter @werewolf/api --prod deploy --legacy /prod/api \
  && PRISMA_DEPLOY_SCHEMA="$(node -e "const fs=require('node:fs');const path=require('node:path');process.stdout.write(path.join(fs.realpathSync('/prod/api/node_modules/@werewolf/database'),'prisma/schema.prisma'))")" \
  && PRISMA_GENERATE_SKIP_AUTOINSTALL=true pnpm --filter @werewolf/database exec prisma generate --schema "$PRISMA_DEPLOY_SCHEMA" \
- && pnpm --filter @werewolf/database deploy --legacy /prod/migrate
+ && CI=true pnpm --filter @werewolf/database deploy --legacy /prod/migrate
 
 FROM node:24-alpine AS runtime-base
 ENV NODE_ENV=production
