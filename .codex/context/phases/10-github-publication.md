@@ -23,6 +23,9 @@ research dumps into the public repository.
   Only synthetic test values and environment-variable references remain.
 - Removed the temporary deploy-key fallback after the push; the configured remote is HTTPS with the
   machine credential manager.
+- Initial GitHub Actions failure was resolved by upgrading Next: `apps/web` now requests
+  `^16.2.11` and the lockfile resolves `next@16.2.12`. `pnpm audit --prod --audit-level moderate`
+  reports no known vulnerabilities and `pnpm --filter @werewolf/web build` passes.
 
 ## Acceptance evidence
 

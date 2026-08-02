@@ -370,3 +370,6 @@
   as a fallback and removed immediately after the successful push.
 - A GitHub import is not a production deployment: running Web/API/Worker, PostgreSQL, Redis, S3,
   HTTPS, and public-domain acceptance remain separate external gates.
+- Initial CI audit revealed high-severity Next.js advisories for `next <16.2.11`; `apps/web` now
+  requests `^16.2.11`, the lockfile resolves `16.2.12`, production audit is clean, and the Web
+  production build passes.

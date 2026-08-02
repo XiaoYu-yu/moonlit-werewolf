@@ -14,6 +14,9 @@ GitHub Actions CI run is queued/running; the accepted Phase 09 source was import
 - `docs/ui-research/` (387 files, 126.78 MB) is excluded from the repository via `.gitignore`; it
   remains local and is not part of the public source.
 - Pre-push scanning found no real provider credentials or private keys in tracked content.
+- Initial CI failed on production audit because `next@16.2.10` had high advisories; the Web
+  dependency moved to `^16.2.11` and the lockfile resolved `next@16.2.12`. Audit is clean and
+  the production Web build passes locally.
 
 
 ## Work completed
