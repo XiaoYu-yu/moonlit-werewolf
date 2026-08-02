@@ -1,12 +1,20 @@
 # Current Execution State
 
-Last updated: 2026-07-22
+Last updated: 2026-08-03
 
 ## Active phase
 
-Phase 09 frontend UI refactor is complete. The user-supplied 12-screen composite now leads the
-implemented desktop/mobile hierarchy, informed by interaction research from shipped Werewolf
-products while preserving the project's authoritative gameplay and privacy contracts.
+Phase 10 GitHub publication is complete. The project is now public at
+https://github.com/XiaoYu-yu/moonlit-werewolf on branch `main` at commit `7a68aaf`. The initial
+GitHub Actions CI run is queued/running; the accepted Phase 09 source was imported unchanged.
+
+## 2026-08-03 — GitHub publication
+
+- Created public repository `XiaoYu-yu/moonlit-werewolf` and pushed 239 tracked files (36.1 MB).
+- `docs/ui-research/` (387 files, 126.78 MB) is excluded from the repository via `.gitignore`; it
+  remains local and is not part of the public source.
+- Pre-push scanning found no real provider credentials or private keys in tracked content.
+
 
 ## Work completed
 
@@ -156,14 +164,15 @@ products while preserving the project's authoritative gameplay and privacy contr
 
 ## Immediate next actions
 
-1. Hand the accepted Phase 09 UI back to the user for visual/product feedback.
-2. If requested, use the existing root double-click launcher for a user-led local play session.
-3. Keep physical-device performance, multi-instance infrastructure/load, and public deployment as
-   explicit later acceptance work rather than claiming them from this Windows browser run.
+1. Confirm the initial GitHub Actions CI run for commit `7a68aaf` completes on `main`.
+2. When requested, continue the documented external gates (Docker/Linux VPS, Redis/PostgreSQL,
+   HTTPS domain, device and load acceptance) before claiming a production deployment.
+3. Keep `.runtime/`, `docs/ui-research/`, and real credentials out of future pushes.
 
 ## Known environment constraints
 
 - Node 24.14.1, pnpm 11.9.0 available.
+- Git repository initialized on 2026-08-03; public GitHub remote `origin` is configured.
 - Docker CLI is not installed on this Windows host, so Compose files can be statically checked but
   containers cannot be launched locally in this session.
 - No `.openai/hosting.json`; no existing Sites project is attached.

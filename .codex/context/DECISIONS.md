@@ -355,3 +355,18 @@
 - This override is accepted only with fresh production build, image pipeline, browser-flow, and
   official-registry audit evidence. It should be removed when the active Next release natively
   declares a patched compatible range.
+
+## 2026-08-03 — GitHub publication scope
+
+- The accepted Moonlit Werewolf source is published as a public GitHub repository
+  `XiaoYu-yu/moonlit-werewolf` on `main`, commit `7a68aaf`; the local folder remains the working
+  checkout and no source is moved out of the project root.
+- The 387-file `docs/ui-research/` reference dump (126.78 MB, mostly third-party screenshots) is
+  intentionally ignored by Git and stays local; public source contains only project-owned assets
+  and docs.
+- Repository push is configured over HTTPS using the machine credential manager. The current gh
+  OAuth token lacks `workflow` scope, so workflow-tree changes should be pushed through `git`
+  rather than creating/updating them through `gh api`; a temporary write deploy key was added only
+  as a fallback and removed immediately after the successful push.
+- A GitHub import is not a production deployment: running Web/API/Worker, PostgreSQL, Redis, S3,
+  HTTPS, and public-domain acceptance remain separate external gates.
