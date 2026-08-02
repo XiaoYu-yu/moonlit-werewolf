@@ -18,7 +18,6 @@ GitHub Actions CI run is queued/running; the accepted Phase 09 source was import
   dependency moved to `^16.2.11` and the lockfile resolved `next@16.2.12`. Audit is clean and
   the production Web build passes locally.
 
-
 ## Work completed
 
 - Approved 14 UI prototypes exist in `imgs_ui/`.
