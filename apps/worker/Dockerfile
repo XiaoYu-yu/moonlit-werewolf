@@ -13,7 +13,7 @@ COPY apps/worker apps/worker
 COPY packages/ai-gateway packages/ai-gateway
 RUN pnpm --filter @werewolf/ai-gateway build \
  && pnpm --filter @werewolf/worker build \
- && CI=true pnpm --filter @werewolf/worker --prod deploy --legacy /prod/worker
+ && CI=true pnpm --config.confirm-modules-purge=false --filter @werewolf/worker --prod deploy --legacy /prod/worker
 
 FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
