@@ -376,3 +376,5 @@
 - Docker image builds run Prisma generate through `pnpm exec` with
   `--config.verify-deps-before-run=false`, because pnpm's default dependency pre-check tries to
   reinstall in a non-TTY Docker build and aborts. All container images now build in CI.
+- Public onboarding material lives in the README plus `docs/` files; the repository remains
+  all-rights-reserved until the author chooses and adds a license.

@@ -4,10 +4,10 @@ Last updated: 2026-08-03
 
 ## Active phase
 
-Phase 10 GitHub publication is complete. The project is now public at
-https://github.com/XiaoYu-yu/moonlit-werewolf on branch `main`; CI is green on the publication
-history with verify, browser, and containers jobs all passing. The accepted Phase 09 source was
-imported and hardened for publication.
+Phase 11 public documentation polish is complete. The repository now has a full project README
+with badges, screenshots, download/use/start/deploy sections, and a dedicated `docs/` system
+covering getting started, deployment, architecture, FAQ, contribution, and security. CI remains
+green on the publication history.
 
 ## 2026-08-03 — GitHub publication
 
@@ -24,6 +24,15 @@ imported and hardened for publication.
   generate step, preventing pnpm's non-TTY dependency reinstall prompt inside Docker.
 - `README.md` now includes an “获取代码与使用” section with `git clone`, GitHub ZIP download,
   Node/pnpm requirements, the Windows launcher, invite code, and AI key guidance.
+
+## 2026-08-03 — Public documentation polish
+
+- Rewrote `README.md` as a project homepage: badges, hero screenshot, desktop/mobile previews,
+  feature list, download and quick-start sections, docs navigation, tech stack, deploy and test
+  commands, license note, and contribution callout.
+- Added `docs/GETTING_STARTED.md`, `docs/DEPLOYMENT.md`, `docs/ARCHITECTURE.md`,
+  `docs/FAQ.md`, `docs/CONTRIBUTING.md`, `docs/SECURITY.md`, and `CHANGELOG.md`.
+- Prettier check passes; all README image links point to existing `imgs_ui/` files.
 
 ## Work completed
 
@@ -173,10 +182,10 @@ imported and hardened for publication.
 
 ## Immediate next actions
 
-1. CI is green; optional next work is real public hosting (Docker/Linux VPS, PostgreSQL/Redis,
-   S3, HTTPS domain, device and load acceptance).
-2. When requested, continue the documented external gates (Docker/Linux VPS, Redis/PostgreSQL,
-   HTTPS domain, device and load acceptance) before claiming a production deployment.
+1. Review the rendered GitHub README and docs pages; optionally add LICENSE, online demo, or
+   release artifacts when the author decides to grant redistribution rights.
+2. Continue the documented external gates (Docker/Linux VPS, Redis/PostgreSQL, S3, HTTPS,
+   device and load acceptance) before claiming a production deployment.
 3. Keep `.runtime/`, `docs/ui-research/`, and real credentials out of future pushes.
 
 ## Known environment constraints
