@@ -1,0 +1,142 @@
+.help-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(720px, calc(100dvh - 32px));
+  padding: 34px;
+  overflow-y: auto;
+  border: 1px solid var(--ui-line, #dbe3ee);
+  border-radius: var(--ui-radius-lg, 20px);
+  color: var(--ui-text, #162033);
+  color-scheme: light;
+  background: var(--ui-surface, #fff);
+  box-shadow: 0 24px 70px rgb(18 31 50 / 22%);
+}
+
+.help-dialog .panel-kicker {
+  margin: 0 0 24px;
+  color: var(--ui-blue, #2f6fed);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.help-dialog h2 {
+  margin: 0;
+  color: var(--ui-text, #162033);
+  font-family: inherit;
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.help-dialog > p:not(.panel-kicker, .help-note) {
+  margin: 12px 0 0;
+  color: var(--ui-text-soft, #536176);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.help-steps {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.help-steps li {
+  display: grid;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--ui-line, #dbe3ee);
+  border-radius: var(--ui-radius-md, 14px);
+  background: var(--ui-surface-soft, #f8fafc);
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.help-steps li > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--ui-blue-deep, #2057c9);
+  background: var(--ui-blue-soft, #eaf1ff);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.help-steps li > div {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.help-steps strong {
+  color: var(--ui-text, #162033);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.help-steps small {
+  color: var(--ui-text-soft, #536176);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.help-note {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--ui-text-soft, #536176);
+  background: var(--ui-blue-soft, #eaf1ff);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.settings-dialog
+  :where(button, a, input, select, [role='button'], [role='switch'], [role='tab']):focus-visible {
+  outline: 3px solid #174ea6 !important;
+  outline-offset: 3px;
+}
+
+.help-dialog .dialog-close {
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ui-line, #dbe3ee);
+  border-radius: 10px;
+  color: var(--ui-text-soft, #536176);
+  background: var(--ui-surface, #fff);
+}
+
+.help-dialog .dialog-close:focus-visible {
+  outline: 3px solid #174ea6 !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .help-dialog {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 28px 16px calc(18px + env(safe-area-inset-bottom));
+    border-radius: 16px;
+  }
+
+  .help-dialog h2 {
+    padding-right: 46px;
+    font-size: 25px;
+  }
+
+  .help-dialog .panel-kicker {
+    margin-bottom: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .help-dialog {
+    scroll-behavior: auto;
+  }
+}

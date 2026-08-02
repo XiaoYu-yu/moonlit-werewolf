@@ -1,0 +1,37 @@
+{
+  "name": "moonlit-werewolf",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build:packages": "pnpm --filter \"./packages/**\" --if-present build",
+    "dev": "pnpm build:packages && pnpm --parallel --filter @werewolf/web --filter @werewolf/api --filter @werewolf/worker dev",
+    "build": "pnpm -r --if-present build",
+    "test": "pnpm build:packages && pnpm -r --if-present test",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:install": "playwright install chromium",
+    "test:e2e:typecheck": "tsc -p e2e/tsconfig.json",
+    "test:coverage": "pnpm -r --if-present test:coverage",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm build:packages && pnpm -r --if-present typecheck && tsc -p e2e/tsconfig.json",
+    "smoke:deepseek": "tsx scripts/deepseek-smoke.ts",
+    "smoke:observer-live": "tsx scripts/live-observer-smoke.ts",
+    "smoke:providers": "tsx scripts/provider-summary-smoke.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^24.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "sharp": "^0.35.3",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

@@ -1,0 +1,14 @@
+node_modules
+.next
+**/.next-*
+**/next-env.d.ts
+dist
+coverage
+playwright-report
+test-results
+output/playwright
+.playwright-cli
+**/Dockerfile
+Caddyfile
+imgs_ui
+pnpm-lock.yaml

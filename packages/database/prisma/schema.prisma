@@ -1,0 +1,299 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InviteStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+enum RoomStatus {
+  LOBBY
+  PLAYING
+  FINISHED
+  ABANDONED
+}
+
+enum SeatKind {
+  HUMAN
+  AI
+  AI_TAKEOVER
+}
+
+enum PlayerSessionStatus {
+  ONLINE
+  OFFLINE
+  EXPIRED
+}
+
+enum MatchStatus {
+  PENDING
+  RUNNING
+  FINISHED
+  CANCELLED
+}
+
+enum GamePhase {
+  LOBBY
+  ROLE_REVEAL
+  NIGHT_GUARD
+  NIGHT_WEREWOLVES
+  NIGHT_SEER
+  NIGHT_WITCH
+  DAWN
+  LAST_WORDS
+  DISCUSSION
+  VOTING
+  HUNTER_SHOT
+  RESOLUTION
+  ENDED
+}
+
+enum ProviderKind {
+  OPENAI_COMPATIBLE
+  DASHSCOPE
+  VOLCENGINE_ARK
+}
+
+enum UsageKind {
+  CHAT
+  TRANSCRIPTION
+}
+
+enum UsageStatus {
+  SUCCEEDED
+  FAILED
+  REJECTED_BUDGET
+}
+
+enum TranscriptionStatus {
+  QUEUED
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  EXPIRED
+}
+
+model InviteCode {
+  id             String       @id @default(cuid())
+  codeHash       String       @unique
+  label          String?
+  status         InviteStatus @default(ACTIVE)
+  maxUses        Int
+  useCount       Int          @default(0)
+  dailyRoomLimit Int          @default(5)
+  expiresAt      DateTime?
+  revokedAt      DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  rooms          Room[]
+
+  @@index([status, expiresAt])
+}
+
+model Room {
+  id             String             @id @default(cuid())
+  code           String             @unique
+  preset         Int
+  status         RoomStatus         @default(LOBBY)
+  inviteId       String
+  hostSessionId  String?
+  settings       Json
+  stateVersion   Int                @default(0)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  closedAt       DateTime?
+  invite         InviteCode         @relation(fields: [inviteId], references: [id], onDelete: Restrict)
+  seats          Seat[]
+  sessions       PlayerSession[]
+  matches        Match[]
+  transcriptions TranscriptionJob[]
+
+  @@index([inviteId, createdAt])
+  @@index([status, updatedAt])
+}
+
+model Seat {
+  id            String         @id @default(cuid())
+  roomId        String
+  seatNumber    Int
+  kind          SeatKind
+  displayName   String
+  ready         Boolean        @default(false)
+  connected     Boolean        @default(false)
+  role          String?
+  alive         Boolean        @default(true)
+  takeoverAt    DateTime?
+  aiModelId     String?
+  aiPersonality String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  room          Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  aiModel       AiModel?       @relation(fields: [aiModelId], references: [id], onDelete: SetNull)
+  playerSession PlayerSession?
+
+  @@unique([roomId, seatNumber])
+  @@index([roomId, kind])
+  @@index([aiModelId])
+}
+
+model PlayerSession {
+  id             String              @id @default(cuid())
+  roomId         String
+  seatId         String              @unique
+  tokenHash      String              @unique
+  nickname       String
+  isHost         Boolean             @default(false)
+  status         PlayerSessionStatus @default(ONLINE)
+  lastSeenAt     DateTime            @default(now())
+  expiresAt      DateTime
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  room           Room                @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  seat           Seat                @relation(fields: [seatId], references: [id], onDelete: Cascade)
+  transcriptions TranscriptionJob[]
+
+  @@index([roomId, status])
+  @@index([expiresAt])
+}
+
+model Match {
+  id           String        @id @default(cuid())
+  roomId       String
+  status       MatchStatus   @default(PENDING)
+  phase        GamePhase     @default(LOBBY)
+  dayNumber    Int           @default(0)
+  stateVersion Int           @default(0)
+  roleSnapshot Json
+  winner       String?
+  startedAt    DateTime?
+  endedAt      DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  room         Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  events       GameEvent[]
+  usage        UsageRecord[]
+
+  @@index([roomId, createdAt])
+  @@index([status, updatedAt])
+}
+
+model GameEvent {
+  id             String   @id @default(cuid())
+  matchId        String
+  sequence       Int
+  type           String
+  payload        Json
+  audienceSeatId String?
+  idempotencyKey String?
+  createdAt      DateTime @default(now())
+  match          Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([matchId, sequence])
+  @@unique([matchId, idempotencyKey])
+  @@index([matchId, createdAt])
+}
+
+model ProviderConfig {
+  id               String             @id @default(cuid())
+  slug             String             @unique
+  displayName      String
+  kind             ProviderKind
+  baseUrl          String
+  encryptedApiKey  String
+  enabled          Boolean            @default(false)
+  concurrencyLimit Int                @default(2)
+  timeoutMs        Int                @default(25000)
+  dailyBudgetCents Int                @default(0)
+  capabilities     Json
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  models           AiModel[]
+  transcriptions   TranscriptionJob[]
+
+  @@index([enabled, kind])
+}
+
+model AiModel {
+  id                         String         @id @default(cuid())
+  providerId                 String
+  modelKey                   String
+  displayName                String
+  enabled                    Boolean        @default(false)
+  capabilities               Json
+  inputPriceCentsPerMillion  Decimal        @default(0) @db.Decimal(12, 4)
+  outputPriceCentsPerMillion Decimal        @default(0) @db.Decimal(12, 4)
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+  provider                   ProviderConfig @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  seats                      Seat[]
+  usage                      UsageRecord[]
+
+  @@unique([providerId, modelKey])
+  @@index([enabled])
+}
+
+model UsageRecord {
+  id           String      @id @default(cuid())
+  kind         UsageKind
+  status       UsageStatus
+  matchId      String?
+  modelId      String?
+  providerSlug String
+  inputTokens  Int?
+  outputTokens Int?
+  durationMs   Int?
+  costCents    Decimal     @default(0) @db.Decimal(12, 4)
+  requestHash  String?
+  errorCode    String?
+  createdAt    DateTime    @default(now())
+  match        Match?      @relation(fields: [matchId], references: [id], onDelete: SetNull)
+  model        AiModel?    @relation(fields: [modelId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt, kind])
+  @@index([matchId])
+  @@index([modelId, createdAt])
+}
+
+model TranscriptionJob {
+  id          String              @id @default(cuid())
+  roomId      String
+  sessionId   String
+  providerId  String?
+  status      TranscriptionStatus @default(QUEUED)
+  objectKey   String?
+  mimeType    String
+  sizeBytes   Int
+  durationMs  Int?
+  transcript  String?
+  errorCode   String?
+  expiresAt   DateTime
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  completedAt DateTime?
+  room        Room                @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  session     PlayerSession       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  provider    ProviderConfig?     @relation(fields: [providerId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([expiresAt])
+  @@index([roomId, createdAt])
+}
+
+model AdminSession {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  ipHash    String?
+  userAgent String?
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  @@index([expiresAt])
+}
