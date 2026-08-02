@@ -28,6 +28,8 @@ research dumps into the public repository.
   reports no known vulnerabilities and `pnpm --filter @werewolf/web build` passes.
 - Container image pipeline is green after disabling pnpm's dependency pre-check for the
   post-deploy Prisma generate step; API, worker, Web, and migration images all build.
+- `README.md` documents how to obtain the project (`git clone` or GitHub ZIP), run it on
+  Windows with the launcher, and configure optional AI keys.
 
 ## Acceptance evidence
 

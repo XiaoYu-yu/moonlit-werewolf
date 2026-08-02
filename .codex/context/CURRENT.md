@@ -22,6 +22,8 @@ imported and hardened for publication.
   1m34s; API, worker, Web, and migration images build successfully.
 - The image pipeline sets `--config.verify-deps-before-run=false` for the post-deploy Prisma
   generate step, preventing pnpm's non-TTY dependency reinstall prompt inside Docker.
+- `README.md` now includes an “获取代码与使用” section with `git clone`, GitHub ZIP download,
+  Node/pnpm requirements, the Windows launcher, invite code, and AI key guidance.
 
 ## Work completed
 

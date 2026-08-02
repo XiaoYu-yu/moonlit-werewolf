@@ -10,6 +10,22 @@ DeepSeek 或 Kimi 补齐；也可以创建全 AI 对局，让观察者在席位�
 供应商记录；因此它适合作为单实例集成候选，不能在未完成外部基础设施验收前直接宣称
 为多实例生产版。
 
+## 获取代码与使用
+
+- 仓库地址：https://github.com/XiaoYu-yu/moonlit-werewolf
+- Git 克隆：
+  ```bash
+  git clone https://github.com/XiaoYu-yu/moonlit-werewolf.git
+  cd moonlit-werewolf
+  ```
+- 不装 Git 也可以下载 ZIP：打开仓库页面，点击绿色 `Code` 按钮，选择 `Download ZIP`，
+  解压后进入 `moonlit-werewolf` 文件夹。
+
+运行需要 Node.js 24+ 和 pnpm 11.9+。Windows 用户可以双击根目录的
+`一键启动狼人杀.cmd` 自动安装依赖并启动，首次运行后访问 `http://localhost:3000`，
+开发邀请码为 `MOONLIT-DEV`。详细启动步骤见下方“本地快速启动”；需要真实 AI 时，按
+“配置AI模型”说明粘贴 DeepSeek/Kimi 密钥，不配置也能通过规则兜底试玩。
+
 ## 已实现范围
 
 - 6/9/12 人固定角色预设，以及狼人、预言家、女巫、猎人、守卫完整核心规则。
