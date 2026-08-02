@@ -26,10 +26,12 @@ research dumps into the public repository.
 - Initial GitHub Actions failure was resolved by upgrading Next: `apps/web` now requests
   `^16.2.11` and the lockfile resolves `next@16.2.12`. `pnpm audit --prod --audit-level moderate`
   reports no known vulnerabilities and `pnpm --filter @werewolf/web build` passes.
+- Container image pipeline is green after disabling pnpm's dependency pre-check for the
+  post-deploy Prisma generate step; API, worker, Web, and migration images all build.
 
 ## Acceptance evidence
 
-- `git ls-remote origin main` returns `7a68aaf150a00654eda3858f6600c3159456844a`.
+- GitHub Actions run `30758580611` completes green: verify 1m11s, browser 2m53s, containers 1m34s.
 - GitHub API confirms repository `nameWithOwner=XiaoYu-yu/moonlit-werewolf`,
   `visibility=PUBLIC`, `defaultBranchRef=main`, and `ci.yml` exists at the expected path.
 - Local working tree remains the same project; no project-owned file was moved or deleted.

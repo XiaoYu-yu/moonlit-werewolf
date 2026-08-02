@@ -5,8 +5,9 @@ Last updated: 2026-08-03
 ## Active phase
 
 Phase 10 GitHub publication is complete. The project is now public at
-https://github.com/XiaoYu-yu/moonlit-werewolf on branch `main` at commit `7a68aaf`. The initial
-GitHub Actions CI run is queued/running; the accepted Phase 09 source was imported unchanged.
+https://github.com/XiaoYu-yu/moonlit-werewolf on branch `main`; CI is green on the publication
+history with verify, browser, and containers jobs all passing. The accepted Phase 09 source was
+imported and hardened for publication.
 
 ## 2026-08-03 — GitHub publication
 
@@ -17,6 +18,10 @@ GitHub Actions CI run is queued/running; the accepted Phase 09 source was import
 - Initial CI failed on production audit because `next@16.2.10` had high advisories; the Web
   dependency moved to `^16.2.11` and the lockfile resolved `next@16.2.12`. Audit is clean and
   the production Web build passes locally.
+- GitHub Actions run `30758580611` is fully green: verify 1m11s, browser 2m53s, and containers
+  1m34s; API, worker, Web, and migration images build successfully.
+- The image pipeline sets `--config.verify-deps-before-run=false` for the post-deploy Prisma
+  generate step, preventing pnpm's non-TTY dependency reinstall prompt inside Docker.
 
 ## Work completed
 
@@ -166,7 +171,8 @@ GitHub Actions CI run is queued/running; the accepted Phase 09 source was import
 
 ## Immediate next actions
 
-1. Confirm the initial GitHub Actions CI run for commit `7a68aaf` completes on `main`.
+1. CI is green; optional next work is real public hosting (Docker/Linux VPS, PostgreSQL/Redis,
+   S3, HTTPS domain, device and load acceptance).
 2. When requested, continue the documented external gates (Docker/Linux VPS, Redis/PostgreSQL,
    HTTPS domain, device and load acceptance) before claiming a production deployment.
 3. Keep `.runtime/`, `docs/ui-research/`, and real credentials out of future pushes.

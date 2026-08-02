@@ -373,3 +373,6 @@
 - Initial CI audit revealed high-severity Next.js advisories for `next <16.2.11`; `apps/web` now
   requests `^16.2.11`, the lockfile resolves `16.2.12`, production audit is clean, and the Web
   production build passes.
+- Docker image builds run Prisma generate through `pnpm exec` with
+  `--config.verify-deps-before-run=false`, because pnpm's default dependency pre-check tries to
+  reinstall in a non-TTY Docker build and aborts. All container images now build in CI.
